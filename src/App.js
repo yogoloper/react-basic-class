@@ -33,9 +33,9 @@ class App extends Component {
         {/* <Subject title={this.state.subject.title} sub={this.state.subject.sub}></Subject> */}
         <header>
           <h1><a href='/' onClick={function(e) {
-            alert('hello~');
-            e.preventDefault(); 
-          }}>{this.state.subject.title}</a></h1>
+            e.preventDefault();
+            this.setState({ mode: 'welcome' });
+          }.bind(this)}>{this.state.subject.title}</a></h1>
           {this.state.subject.sub}
         </header>
         <TOC data={this.state.contents}></TOC>
