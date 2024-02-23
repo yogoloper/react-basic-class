@@ -8,7 +8,9 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      mode: 'read',
       subject: { title: 'Web', sub: 'world wide web!' },
+      welcome: { title: 'Welcome', desc: 'Hello, React!!' },
       contents: [
         {id: 1, title: 'HTML', desc: 'HTML is Hypertext Markup Language.'},
         {id: 2, title: 'CSS', desc: 'CSS is ...'},
@@ -18,11 +20,19 @@ class App extends Component {
   }
 
   render() {
+    let _title = null, _desc = null;
+    if (this.state.mode === 'welcome') {
+      _title = this.state.welcome.title;
+      _desc = this.state.welcome.desc;
+    } else if (this.state.mode === 'read') {
+      _title = this.state.contents[0].title;
+      _desc = this.state.contents[0].desc;
+    }
     return (
       <div className='App'>
         <Subject title={this.state.subject.title} sub={this.state.subject.sub}></Subject>
         <TOC data={this.state.contents}></TOC>
-        <Content title='HTML' desc='HTML is Hypertext Markup Language.'></Content>
+        <Content title={_title} desc={_desc}></Content>
       </div>
     )
   }
