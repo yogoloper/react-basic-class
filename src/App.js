@@ -11,7 +11,7 @@ class App extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      mode: 'create',
+      mode: 'welcome',
       selected_content_id: 2,
       subject: { title: 'Web', sub: 'world wide web!' },
       welcome: { title: 'Welcome', desc: 'Hello, React!!' },
@@ -75,7 +75,21 @@ class App extends Component {
           }.bind(this)}>
         </Subject>
         <Control onChangeMode={function(_mode) {
-          this.setState({ mode: _mode });
+          if(_mode === 'delete') {
+            if(window.confirm('삭제하시겠습니까?')) {
+              const _contents = Array.from(this.state.contents)
+              for (let i = 0; i < _contents.length; i++) {
+                if(_contents[i].id === this.state.selected_content_id) {
+                  _contents.splice(i, 1);
+                  this.setState({ contents: _contents, mode:'welcome', selected_content_id: null });
+                  alert('삭제완료');
+                  break;
+                }
+              }
+            }
+          } else {
+            this.setState({ mode: _mode });
+          }
         }.bind(this)}></Control>
         <TOC
           data={this.state.contents}
