@@ -2,8 +2,9 @@ import './App.css';
 import { Component } from 'react';
 import TOC from './components/TOC';
 import Subject from './components/Subject';
-import Content from './components/Content';
 import Control from './components/Control';
+import ReadContent from './components/ReadContent';
+import CreateContent from './components/CreateContent';
 
 class App extends Component {
   constructor(props) {
@@ -22,10 +23,11 @@ class App extends Component {
   }
 
   render() {
-    let _title = null, _desc = null;
+    let _title = null, _desc = null, _article = null;
     if (this.state.mode === 'welcome') {
       _title = this.state.welcome.title;
       _desc = this.state.welcome.desc;
+      _article = <ReadContent title={_title} desc={_desc}></ReadContent>
     } else if (this.state.mode === 'read') {
       let i = 0;
       while(i < this.state.contents.length) {
@@ -37,6 +39,9 @@ class App extends Component {
         }
         i = i + 1;
       }
+      _article = <ReadContent title={_title} desc={_desc}></ReadContent>
+    } else if (this.state.mode === 'create') {
+      _article = <CreateContent title={_title} desc={_desc}></CreateContent>
     }
     return (
       <div className='App'>
@@ -56,7 +61,7 @@ class App extends Component {
             this.setState({ mode:'read', selected_content_id: Number(id) });
           }.bind(this)}>
         </TOC>
-        <Content title={_title} desc={_desc}></Content>
+        {_article}
       </div>
     )
   }
