@@ -58,7 +58,7 @@ class App extends Component {
             break;
           }
         }
-        this.setState({ contents: _contents });
+        this.setState({ contents: _contents, mode:'read', selected_content_id: _id});
       }.bind(this)}></UpdateContent>
     }
     return _article;
