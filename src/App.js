@@ -3,6 +3,7 @@ import { Component } from 'react';
 import TOC from './components/TOC';
 import Subject from './components/Subject';
 import Content from './components/Content';
+import Control from './components/Control';
 
 class App extends Component {
   constructor(props) {
@@ -46,7 +47,9 @@ class App extends Component {
             this.setState({ mode:'welcome' });
           }.bind(this)}>
         </Subject>
-        
+        <Control onChangeMode={function(_mode) {
+          this.setState({ mode: _mode });
+        }.bind(this)}></Control>
         <TOC
           data={this.state.contents}
           onChangePage={function(id) {
