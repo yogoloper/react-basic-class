@@ -41,7 +41,10 @@ class App extends Component {
       }
       _article = <ReadContent title={_title} desc={_desc}></ReadContent>
     } else if (this.state.mode === 'create') {
-      _article = <CreateContent title={_title} desc={_desc}></CreateContent>
+      _article = <CreateContent onSubmit={function(_title, _desc) {
+        const _contents = this.state.contents
+        this.setState({ contents: _contents.concat({id: _contents[_contents.length-1].id + 1, title: _title, desc: _desc})});
+      }.bind(this)}></CreateContent>
     }
     return (
       <div className='App'>
