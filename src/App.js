@@ -4,7 +4,8 @@ import TOC from './components/TOC';
 import Subject from './components/Subject';
 import Control from './components/Control';
 import ReadContent from './components/ReadContent';
-import CreateContent from './components/CreateContent';
+import CreateContent from './components/CreateContent'; 
+import UpdateContent from './components/UpdateContent'; 
 
 class App extends Component {
   constructor(props) {
@@ -21,31 +22,41 @@ class App extends Component {
       ],
     }
   }
+  getReadContent() {
+    let i = 0;
+    while(i < this.state.contents.length) {
+      let data = this.state.contents[i];
+      if (data.id === this.state.selected_content_id) {
+        return data;
+      }
+      i = i + 1;
+    }
+  }
 
-  render() {
+  getContent() {
     let _title = null, _desc = null, _article = null;
     if (this.state.mode === 'welcome') {
       _title = this.state.welcome.title;
       _desc = this.state.welcome.desc;
       _article = <ReadContent title={_title} desc={_desc}></ReadContent>
     } else if (this.state.mode === 'read') {
-      let i = 0;
-      while(i < this.state.contents.length) {
-        let data = this.state.contents[i];
-        if (data.id === this.state.selected_content_id) {
-          _title = data.title;
-          _desc = data.desc;
-          break;
-        }
-        i = i + 1;
-      }
-      _article = <ReadContent title={_title} desc={_desc}></ReadContent>
+      const _contents = this.getReadContent();
+      _article = <ReadContent title={_contents._itle} desc={_contents.desc}></ReadContent>
     } else if (this.state.mode === 'create') {
       _article = <CreateContent onSubmit={function(_title, _desc) {
         const _contents = this.state.contents
         this.setState({ contents: _contents.concat({id: _contents[_contents.length-1].id + 1, title: _title, desc: _desc})});
       }.bind(this)}></CreateContent>
+    } else if (this.state.mode === 'update') {
+      const _contents = this.getReadContent();
+      _article = <UpdateContent data={_contents} onSubmit={function(_title, _desc) {
+        const _contents = this.state.contents
+        this.setState({ contents: _contents.concat({id: _contents[_contents.length-1].id + 1, title: _title, desc: _desc})});
+      }.bind(this)}></UpdateContent>
     }
+    return _article;
+  }
+  render() {
     return (
       <div className='App'>
         <Subject 
@@ -64,7 +75,7 @@ class App extends Component {
             this.setState({ mode:'read', selected_content_id: Number(id) });
           }.bind(this)}>
         </TOC>
-        {_article}
+        {this.getContent()}
       </div>
     )
   }
