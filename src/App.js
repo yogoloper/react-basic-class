@@ -41,7 +41,7 @@ class App extends Component {
       _article = <ReadContent title={_title} desc={_desc}></ReadContent>
     } else if (this.state.mode === 'read') {
       const _contents = this.getReadContent();
-      _article = <ReadContent title={_contents._itle} desc={_contents.desc}></ReadContent>
+      _article = <ReadContent title={_contents.title} desc={_contents.desc}></ReadContent>
     } else if (this.state.mode === 'create') {
       _article = <CreateContent onSubmit={function(_title, _desc) {
         const _contents = this.state.contents
@@ -51,6 +51,7 @@ class App extends Component {
       const _contents = this.getReadContent();
       _article = <UpdateContent data={_contents} onSubmit={function(_id, _title, _desc) {
         const _contents = Array.from(this.state.contents)
+        console.log(_id, _title, _desc)
         for (let i = 0; i < _contents.length; i++) {
           if (_id === _contents[i].id) {
             _contents[i].title = _title;
